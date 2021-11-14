@@ -1,0 +1,17 @@
+body{
+    font-family: Arial;
+    color:green;
+    height:100%;
+}
+h1{
+    margin-left:38vw;
+}
+#stat-data{
+    font-size: 20px;
+    margin:1vh 10vw 1vh 10vw;
+    border-style:double;
+    padding:3vh
+}
+#forms{
+    margin-left:35vw;
+}

@@ -1,0 +1,82 @@
+@Autowired
+	DB db;
+	
+	//החדר הכי יקר שתפוס
+	public int mostExpensiveTaken(){
+		int max=0;
+		int id = 0;
+		for (OrderDTO order : db.getOrders()) {
+			for (RoomDTO room : db.getRooms()) {
+				if(room.getId()==order.getId())
+				{
+					if(room.getPrice()>max)
+					{
+						max = room.getPrice();
+						id = room.getId();
+					}					
+				}
+			}
+		}
+		return id;
+	}
+	
+	
+	//כמה אחוזים מהחדרים תפוסים
+	public double PercentOfBusyRooms(){
+		int numRooms = db.getRooms().size();
+		int numBusyRooms=0;
+		
+		for (OrderDTO order : db.getOrders()) {
+			
+		}
+		
+		return numBusyRooms/numRooms*100;
+		
+	}
+	
+	//	חישוב משכורת של חדרן לפי תעריף לשעה כפול מספר שעות 
+	public int getValetSalary(int id){
+		Optional<ValetDTO> valet = db.getValets().stream().filter(v -> v.getId()==id).findFirst();
+		int salary = (valet.get().getPayPerHr()* valet.get().getNumHours();
+		return salary;
+	}
+	
+	//עדכון שעות עבודה לעובד
+	public void updateWorkingHours(int id,int hours){
+		Optional<ValetDTO> valet = db.getValets().stream().filter(v -> v.getId()==id).findFirst();
+		int numHours = (int) (valet.get().getNumHours()+ hours);
+		valet.get().setNumHours(numHours);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@RequestMapping(value="/maxPriceTaken")
+	public int maxPriceTaken() {
+		return ser.mostExpensiveTaken();		
+	}
+	
+	@RequestMapping(value="/percentBusyRooms")
+	public double percentBusyRooms() {
+		return ser.PercentOfBusyRooms();		
+	}
+	
+	@RequestMapping(value="/getSalary/{id}")
+	public double getSalary(int id) {
+		return ser.getValetSalary(id);		
+	}
+	
+	@RequestMapping(value="/updWorkHours")
+	public void updWorkingHours(int id, int hours) {
+	   ser.updateWorkingHours(id, hours);		
+	}
